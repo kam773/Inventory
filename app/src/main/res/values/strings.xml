@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Inventory</string>
+
+    <string name="empty_view_title_text">No items found!</string>
+
+    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get started by adding a product</string>
+
+    <string name="action_insert_dummy_data">Insert random product</string>
+
+    <string name="action_delete_all_entries">Delete all products</string>
+
+    <string name="action_delete">Delete</string>
+
+    <string name="action_save">Save</string>
+
+    <string name="product_name">Product name</string>
+
+    <string name="producer_name">Producer</string>
+
+    <string name="price_label">Price</string>
+
+    <string name="quantity_label">Quantity</string>
+
+    <string name="editor_activity_title_new_product">New product</string>
+
+    <string name="editor_activity_title_edit_product">Edit product</string>
+
+    <string name="unsaved_changes_dialog_msg">Unsaved changes</string>
+
+    <string name="discard">discard</string>
+
+    <string name="keep_editing">Keep editing</string>
+
+    <string name="editor_insert_product_failed">Insertion failed</string>
+
+    <string name="editor_insert_product_successful">Insertion successful</string>
+
+    <string name="editor_delete_product_failed">Deletion failed</string>
+
+    <string name="editor_delete_product_successful">Deletion successful</string>
+
+    <string name="editor_update_product_failed">Update failed</string>
+
+    <string name="editor_update_product_successful">Update successful</string>
+
+</resources>
