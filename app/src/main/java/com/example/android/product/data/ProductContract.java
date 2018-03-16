@@ -12,17 +12,16 @@ public class ProductContract {
 
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
-    // To prevent someone from accidentally instantiating the contract class,
-    // give it an empty constructor.
+
     private ProductContract() {
     }
 
 
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.product";
-    // base content URI
+    public static final String CONTENT_AUTHORITY = "com.example.android.product.data";
+
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    // path to table name
+
     public static final String PATH_PRODUCTS = "products";
 
 

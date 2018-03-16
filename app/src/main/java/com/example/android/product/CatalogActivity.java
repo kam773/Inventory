@@ -38,7 +38,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
-        // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,42 +48,30 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         });
 
 
-        // Find the ListView which will be populated with the product data
         ListView productListView = (ListView) findViewById(R.id.list);
 
-        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
 
-        // Setup an Adapter to create a list item for each row of product data in the Cursor.
-        // There is no product data yest (until the loader finishes) so pass in null for theCursor
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
 
-        // Setup item click listener
+
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // Create new intent to go to EditorActivity
+
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
 
-                // From the content URI that represents the specific product that was clicked on,
-                // by appending "id" (passed as input to this method) onto the PerEntry#CONTENT_URI
-                // For example, the URI would be "content://com.example.android.products/product/2"
-                // if the product with ID 2 was clicked on
                 Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
                 Log.i(LOG_TAG, "Current URI: " + currentProductUri);
 
-                // Set the URI on the data field of the intent
                 intent.setData(currentProductUri);
 
-                // Launch the EditorActivity to display the data for the current product
                 startActivity(intent);
             }
         });
 
-
-        // Kick off the loader
         getSupportLoaderManager().initLoader(PRODUCT_LOADER, null, this);
 
     }
@@ -92,8 +79,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_catalog.xml file.
-        // This adds menu items to the app bar.
+
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
         return true;
     }
@@ -106,7 +92,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Item");
         values.put(ProductEntry.COLUMN_PRODUCT_PRODUCER, "test");
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, 7);
-        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, 49.99);
+        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, "49");
 
 
         Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
@@ -114,13 +100,13 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
+
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
+
             case R.id.action_insert_dummy_data:
                 insertProduct();
                 return true;
-            // Respond to a click on the "Delete all entries" menu option
+
             case R.id.action_delete_all_entries:
                 deleteAllProducts();
                 return true;
@@ -131,7 +117,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        // Define a projection that specifies the columns from the table we care about
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
@@ -141,31 +126,29 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
         };
 
-        // This loader will execute the ContentProvider's query method ona background thread
-        return new CursorLoader(this,       // Parent activity context
-                ProductEntry.CONTENT_URI,   // Provider content URI to query
-                projection,                 // Columns to include in the resulting Cursor
-                null,                       // No selection clause
-                null,                       // No selection arguments
-                null                        // Default sort order
+
+        return new CursorLoader(this,
+                ProductEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null
         );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Update {@link ProductCursorAdapter} with this new cursor containing updated product data
+
         mCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        // Callback is called when the data needs to be deleted
+
         mCursorAdapter.swapCursor(null);
     }
 
-    /**
-     * Helper method to delete all products in the database.
-     */
+
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from product database");

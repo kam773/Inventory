@@ -39,7 +39,7 @@ public class ProductProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    // Add Uri to sUriMatcher object
+
     static {
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS, PRODUCTS);
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS + "/#", PRODUCT_ID);
@@ -78,7 +78,7 @@ public class ProductProvider extends ContentProvider {
     }
 
     private Uri insertProduct(Uri uri, ContentValues values) {
-        // Check that the name is not null
+
         String name = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
@@ -89,28 +89,23 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
-        // If the quantity is provided, check that it's greater than or equal to 0 kg
         Integer quantity = values.getAsInteger(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY);
         if (quantity != null && quantity < 0) {
             throw new IllegalArgumentException("Product requires valid quantity");
         }
 
-        // No need to check the model, any value is valid (including null).
 
-        // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Insert the new product with the given values
         long id = database.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
-        // If the ID is -1, then the insertion failed. Log an error and return null.
+
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
-        // Notify all listeners that the data has changed for the product content URI
+
         getContext().getContentResolver().notifyChange(uri, null);
 
-        // Return the new URI with the ID (of the newly inserted row) appended at the end
         return ContentUris.withAppendedId(uri, id);
     }
 
@@ -122,8 +117,7 @@ public class ProductProvider extends ContentProvider {
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-        // If the {@link ProductEntry#COLUMN_PRODUCT_NAME} key is present,
-        // check that the name value is not null.
+
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
@@ -172,9 +166,7 @@ public class ProductProvider extends ContentProvider {
             case PRODUCTS:
                 return updateProduct(uri, values, selection, selectionArgs);
             case PRODUCT_ID:
-                // For the PRODUCT_ID code, extract out the ID from the URI,
-                // so we know which row to update. Selection will be "_id=?" and selection
-                // arguments will be a String array containing the actual ID.
+
                 selection = ProductContract.ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateProduct(uri, values, selection, selectionArgs);

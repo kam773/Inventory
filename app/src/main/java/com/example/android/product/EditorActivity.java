@@ -2,6 +2,7 @@ package com.example.android.product;
 
 
 import android.support.design.widget.FloatingActionButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,13 +73,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText = (EditText) findViewById(R.id.quantity_input);
 
 
-
-
-        FloatingActionButton fabPlus = (FloatingActionButton) findViewById(R.id.fab_plus);
-
-        fabPlus.setOnClickListener(new View.OnClickListener() {
+        ImageButton plusBtn = (ImageButton) findViewById(R.id.plusButton);
+        plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (quantity == 50) {
 
                     Toast.makeText(EditorActivity.this, "You can't insert more than 50 items", Toast.LENGTH_SHORT).show();
@@ -86,14 +84,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 }
                 quantity = quantity + 1;
                 displayQuantity(quantity);
+
             }
         });
 
-        FloatingActionButton fabMinus = (FloatingActionButton) findViewById(R.id.fab_minus);
-
-        fabMinus.setOnClickListener(new View.OnClickListener() {
+        ImageButton minusBtn = (ImageButton) findViewById(R.id.minusButton);
+        minusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (quantity == 1) {
 
                     Toast.makeText(EditorActivity.this, "You can't insert less than 1 item", Toast.LENGTH_SHORT).show();
@@ -101,6 +99,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 }
                 quantity = quantity - 1;
                 displayQuantity(quantity);
+
             }
         });
 
@@ -109,9 +108,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
 
     private void displayQuantity(int numberOfItems) {
-        TextView quantityEditText = (TextView) findViewById(R.id.quantity_input);
 
-        quantityEditText.setText("" + numberOfItems);
+
+        mQuantityEditText.setText("" + numberOfItems);
     }
 
     @Override

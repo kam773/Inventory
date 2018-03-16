@@ -74,14 +74,13 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_minus"
+            <ImageButton
+                android:id="@+id/plusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="Decrease"
-                app:fabSize="normal"
-                android:src="@drawable/ic_remove_white_24dp"
-                app:backgroundTint="@color/fab_red"/>
+                android:background="@null"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
+                />
 
 
             <EditText
@@ -92,14 +91,14 @@
                 android:textSize="20sp"
                 android:padding="16dp"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_plus"
+            <ImageButton
+                android:id="@+id/minusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="Increase"
-                app:fabSize="normal"
-                android:src="@drawable/ic_add_white_24dp"
-                app:backgroundTint="@color/fab_green"/>
+                android:background="@null"
+                android:src="@drawable/ic_remove_circle_outline_black_24dp"
+                />
+
         </LinearLayout>
 
 </LinearLayout>
